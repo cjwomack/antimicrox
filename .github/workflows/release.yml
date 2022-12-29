@@ -58,9 +58,10 @@ jobs:
               run: cmake --build "${{ github.workspace }}/build" --parallel 8
 
             - name: View directory
+              shell: pwsh
               working-directory: "${{ github.workspace }}"
               run: |
-                find ${{ github.workspace }}
+                tree /F ${{ github.workspace }}
 
             - name: Upload binaries to release
               uses: AButler/upload-release-assets@v2.0
