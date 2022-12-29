@@ -26,13 +26,6 @@ jobs:
                       build-type: Debug
                       qt-arch: "win32_mingw81"
                       experimental: false
-                    - name: Windows Server 2019 MSVC
-                      image: windows-2019
-                      shell: cmd
-                      cmake-args: -G "Visual Studio 16 2019" "-DSDL2_PATH=%WORKSPACE_DIR%/sdl2/" "-DSDL2_LIBRARY=%WORKSPACE_DIR%/sdl2/lib/x86/SDL2.lib" "-DSDL2_INCLUDE_DIR=%WORKSPACE_DIR%/sdl2/" "-DSDL2_DLL_LOCATION_DIR=%WORKSPACE_DIR%/sdl2/lib/x86/SDL2.dll"
-                      build-type: Debug
-                      qt-arch: "win32_msvc2019"
-                      experimental: false
         name: ${{ matrix.name }} ${{ matrix.build-type }}
         runs-on: ${{ matrix.image }}
         continue-on-error: ${{ matrix.experimental }}
@@ -58,27 +51,6 @@ jobs:
               run: |
                 curl -L -o mingw-w64-i686-SDL2-2.0.20-1-any.pkg.tar.zst https://mirror.msys2.org/mingw/mingw32/mingw-w64-i686-SDL2-2.0.20-1-any.pkg.tar.zst
                 pacman --noconfirm -U mingw-w64-i686-SDL2-2.0.20-1-any.pkg.tar.zst
-                
-            - name: Set up Visual Studio shell
-              if: startsWith(matrix.shell, 'cmd')
-              uses: egor-tensin/vs-shell@v2
-              with:
-                arch: x32
-                
-            - name: Install sdl2 (msvc)
-              if: startsWith(matrix.shell, 'cmd')
-              run: |
-                curl -L -o SDL2-devel-2.0.20-VC.zip https://github.com/libsdl-org/SDL/releases/download/release-2.0.20/SDL2-devel-2.0.20-VC.zip
-                unzip SDL2-devel-2.0.20-VC.zip
-                mv "${{ github.workspace }}/SDL2-2.0.20" "${{ github.workspace }}/sdl2"
-                mklink /J "${{ github.workspace }}\sdl2\SDL2" "${{ github.workspace }}\sdl2\include"
-              
-            - name: Install MSVC
-              if: startsWith(matrix.shell, 'cmd')
-              uses: TheMrMilchmann/setup-msvc-dev@v2
-              with:
-                arch: x86
-                toolset: 14.1
 
             - name: Install Qt
               uses: jurplel/install-qt-action@v2
