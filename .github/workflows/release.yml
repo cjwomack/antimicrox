@@ -39,6 +39,7 @@ jobs:
                   host: "windows"
                   target: "desktop"
                   arch: "win32_mingw81"
+                  setup-python: "true"
                   dir: "${{ github.workspace }}/qt/"
                   install-deps: "true"
 
