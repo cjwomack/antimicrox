@@ -59,6 +59,7 @@ jobs:
                   host: "windows"
                   target: "desktop"
                   arch: ${{ matrix.qt-arch }}
+                  setup-python: 'true'
                   dir: "${{ github.workspace }}/qt/"
                   install-deps: "true"
               
