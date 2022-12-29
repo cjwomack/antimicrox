@@ -13,7 +13,13 @@ jobs:
 
         steps:
             - uses: actions/checkout@v3
-
+            
+            - name: 32bit_python
+              uses: actions/setup-python@v4
+              with:
+                  python-version: '3.7.9'
+                  architecture: 'x86'
+            
             - name: Install Dependencies
               uses: msys2/setup-msys2@v2
               with:
@@ -43,13 +49,13 @@ jobs:
                   install-deps: "true"
 
             - name: Configure CMake
-              run: cmake -DCMAKE_BUILD_TYPE=Release -DCHECK_FOR_UPDATES=ON -DANTIMICROX_PKG_VERSION="GitHub Windows Release" -B "${{ github.workspace }}/build" ${{ matrix.cmake-args }}
+              run: cmake -DCMAKE_BUILD_TYPE=Release -B "${{ github.workspace }}/build" ${{ matrix.cmake-args }}
               env:
                   CMAKE_PREFIX_PATH: ${{env.Qt5_Dir}}
                   WORKSPACE_DIR: ${{ github.workspace }}
 
             - name: Build Installer
-              run: cmake --build "${{ github.workspace }}/build" --target package --parallel 8
+              run: cmake --build "${{ github.workspace }}/build" --parallel 8
 
 
             - name: Upload binaries to release
