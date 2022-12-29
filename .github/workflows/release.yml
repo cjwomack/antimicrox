@@ -66,5 +66,5 @@ jobs:
             - name: Upload binaries to release
               uses: AButler/upload-release-assets@v2.0
               with:
-                  files: bin/antimicrox*.exe
+                  files: ${{ github.workspace }}/bin/*
                   repo-token: ${{ github.token }}
